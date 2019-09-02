@@ -76,11 +76,7 @@ Home.getInitialProps = async ({ req }) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-<<<<<<< HEAD
           'Authorization': '***'
-=======
-          'Authorization': 'Basic '
->>>>>>> a9a86f4c0847ffb556bb00967b3535e9c1381285
         }
       }
     )
@@ -115,11 +111,7 @@ Home.getInitialProps = async ({ req }) => {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-<<<<<<< HEAD
               'Authorization': '***'
-=======
-              'Authorization': 'Basic xxx'
->>>>>>> a9a86f4c0847ffb556bb00967b3535e9c1381285
             }
           }
         )
