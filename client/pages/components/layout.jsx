@@ -11,7 +11,9 @@ import {
   Dimmer,
   Loader,
   Label,
-  Button
+  Button,
+  Divider,
+  Table
 } from 'semantic-ui-react'
 import GridFooter from './GridFooter'
 import MapComponent from './MapComponent'
@@ -139,7 +141,7 @@ class StickyLayout extends Component {
             >
               <Container text>
                 <Menu.Item>
-                  <Image size='mini' src='/logo.png' />
+                  <Image size='mini' src='/static/logo.svg' />
                 </Menu.Item>
                 <Menu.Item header>4onse - Drought monitoring system</Menu.Item>
               </Container>
@@ -251,7 +253,7 @@ class StickyLayout extends Component {
                       title={this.state.indexes[selectedIndex]}
                       pieces={getPieces(selectedIndex)}
                       id='chart-2'
-                    /> : <div style={{height: chartHeight}}>Drought index description</div>}
+                    /> : <div style={{height: chartHeight}}><Description index={selectedIndex}/></div>}
                   </div>
                 </StationContext.Provider>
               </div>
@@ -284,6 +286,229 @@ class StickyLayout extends Component {
         </MobileView>
       </div>
       
+    )
+  }
+}
+
+class ContentComponent extends Component{
+  render () {
+    return(
+      <Container textAlign='justified' style={{padding: 25}}>
+        <b>{this.props.title}</b>
+        <Divider />
+        {this.props.content}
+      </Container>
+    )
+  }
+}
+
+class Description extends Component{
+  render () {
+    let { index } = this.props
+    let res;
+    
+    switch (index) {
+      case 0:
+        res = <ContentComponent
+          title="Heat Index (HI)"
+          content={
+          <div>
+            The Heat Index ({<strong>HI</strong>}), or Apparent Temperature 
+            ({<strong>AT</strong>}), is an index derived from the combination
+            between temperature and relative humidity in Fahrenheit degrees (F°). 
+            It gives information about the physiological disconfort due to high
+            temperatures and high humidity rates. In table 1, the heat index 
+            classification is described:
+            <Table celled>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Intensity level</Table.HeaderCell>
+                  <Table.HeaderCell>Heat Index</Table.HeaderCell>
+                  <Table.HeaderCell>Dangers</Table.HeaderCell>
+                  <Table.HeaderCell>Category</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                <Table.Row style={{backgroundColor: 'red'}}>
+                  <Table.Cell>
+                    Very high
+                  </Table.Cell>
+                  <Table.Cell>
+                    Higher than 53°C
+                  </Table.Cell>
+                  <Table.Cell>
+                    Heat stroke highly likely
+                  </Table.Cell>
+                  <Table.Cell>
+                    Extreme danger
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row style={{backgroundColor: 'orange'}}>
+                  <Table.Cell>
+                    High
+                  </Table.Cell>
+                  <Table.Cell>
+                    40-53°C
+                  </Table.Cell>
+                  <Table.Cell>
+                    Heat cramps or heat exhaustion likely, and heat stroke possible with prolongued exposure and/or physical activity
+                  </Table.Cell>
+                  <Table.Cell>
+                    Danger
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row style={{backgroundColor: 'yellow'}}>
+                  <Table.Cell>
+                    Medium
+                  </Table.Cell>
+                  <Table.Cell>
+                    32-40°C
+                  </Table.Cell>
+                  <Table.Cell>
+                    Heat stroke, heat cramps or heat exhaustion possible with prolonged exposure and/or physical activity
+                  </Table.Cell>
+                  <Table.Cell>
+                    Extreme caution
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row style={{backgroundColor: 'cyan'}}>
+                  <Table.Cell>
+                    Low
+                  </Table.Cell>
+                  <Table.Cell>
+                    25-32°C
+                  </Table.Cell>
+                  <Table.Cell>
+                    Fatique possible with prolongued exposure and/or physical activity
+                  </Table.Cell>
+                  <Table.Cell>
+                    Caution
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row style={{backgroundColor: 'white'}}>
+                  <Table.Cell>
+                    Very low
+                  </Table.Cell>
+                  <Table.Cell>
+                    Lower than 25°C
+                  </Table.Cell>
+                  <Table.Cell>
+                    Good conditions
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
+            Table 1. Heat index classification.
+          </div>
+          }
+          />
+        break;
+      case 1:
+        res = <ContentComponent
+          title="Standard Precipitation Index (SPI 30)"
+          content={
+            <div>
+              The Standard Precipitation Index ({<strong>SPI</strong>}) 
+              (McKee at al., 1993), is a statistical index that uses 
+              historical time series of almost 30 years to represent 
+              and detect abnormal wet or dry periods. The SPI is 
+              recommended by the World Meteorological Office (WMO) 
+              as a principal indicator. Hereinafter the classification 
+              of the index is represented.
+              <Table celled>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Intensity level</Table.HeaderCell>
+                    <Table.HeaderCell>Heat Index</Table.HeaderCell>
+                    <Table.HeaderCell>Dangers</Table.HeaderCell>
+                    <Table.HeaderCell>Category</Table.HeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  <Table.Row style={{backgroundColor: 'red'}}>
+                    <Table.Cell>
+                      Very high
+                    </Table.Cell>
+                    <Table.Cell>
+                      Higher than 53°C
+                    </Table.Cell>
+                    <Table.Cell>
+                      Heat stroke highly likely
+                    </Table.Cell>
+                    <Table.Cell>
+                      Extreme danger
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row style={{backgroundColor: 'orange'}}>
+                    <Table.Cell>
+                      High
+                    </Table.Cell>
+                    <Table.Cell>
+                      40-53°C
+                    </Table.Cell>
+                    <Table.Cell>
+                      Heat cramps or heat exhaustion likely, and heat stroke possible with prolongued exposure and/or physical activity
+                    </Table.Cell>
+                    <Table.Cell>
+                      Danger
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row style={{backgroundColor: 'yellow'}}>
+                    <Table.Cell>
+                      Medium
+                    </Table.Cell>
+                    <Table.Cell>
+                      32-40°C
+                    </Table.Cell>
+                    <Table.Cell>
+                      Heat stroke, heat cramps or heat exhaustion possible with prolonged exposure and/or physical activity
+                    </Table.Cell>
+                    <Table.Cell>
+                      Extreme caution
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row style={{backgroundColor: 'cyan'}}>
+                    <Table.Cell>
+                      Low
+                    </Table.Cell>
+                    <Table.Cell>
+                      25-32°C
+                    </Table.Cell>
+                    <Table.Cell>
+                      Fatique possible with prolongued exposure and/or physical activity
+                    </Table.Cell>
+                    <Table.Cell>
+                      Caution
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row style={{backgroundColor: 'white'}}>
+                    <Table.Cell>
+                      Very low
+                    </Table.Cell>
+                    <Table.Cell>
+                      Lower than 25°C
+                    </Table.Cell>
+                    <Table.Cell>
+                      Good conditions
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table>
+            </div>
+          }
+        />
+        break;
+      case 2:
+        res = <ContentComponent title="Standard Precipitation Index (SPI 60)" content="Test"/>
+        break;
+      default:
+        res = <div>Error index not found!</div>
+        break;
+    }
+    return(
+      <div>
+        {res}
+      </div>
     )
   }
 }

@@ -257,10 +257,23 @@ class MapComponent extends Component {
               </Modal.Content>
             </Modal> : null
           }
-          <div id="mapid" style={{height: height, width: '100%', padding: 0}}></div>
+          <div
+            id="mapid"
+            style={
+              {
+                border: "1px solid black",
+                borderRadius: '5px',
+                height: height,
+                width: '100%',
+                padding: 0
+              }
+            }
+          />
         </div>
       )
     }
   }
+
+  
 
   export default MapComponent;

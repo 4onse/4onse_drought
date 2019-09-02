@@ -4,3 +4,6 @@
 *.ipynb_checkpoints
 *.pyc
 *.next
+config.json
+server/data/*
+*.log

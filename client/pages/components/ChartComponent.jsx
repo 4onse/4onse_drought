@@ -20,6 +20,7 @@ class ChartComponent extends Component{
         }
         
         var options = {
+            elements: { point: { radius: 0 } },
             title: {
                 text: title
             },
@@ -31,9 +32,8 @@ class ChartComponent extends Component{
                 bottom: '100'
             },
             xAxis: {
-                data: data[indexLen].map(function (item2) {
-                    return item2[0];
-                })
+                type: 'time',
+                boundaryGap:false,
             },
             yAxis: {
                 splitLine: {
@@ -74,7 +74,7 @@ class ChartComponent extends Component{
                         name: item.name,
                         type: 'line',
                         data: data[index].map(function (item2) {
-                            return item2[1];
+                            return item2
                         }),
                         markLine: {
                             silent: true,

@@ -25,6 +25,7 @@ class Home extends Component {
     innerWidth: null
   }
   componentDidMount() {
+    
     this.setState({
       innerWidth: window.innerWidth,
       innerHeight: window.innerHeight
@@ -75,7 +76,7 @@ Home.getInitialProps = async ({ req }) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Basic xxx'
+          'Authorization': '***'
         }
       }
     )
@@ -110,7 +111,7 @@ Home.getInitialProps = async ({ req }) => {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'Basic YWRtaW46QlYzWGp2clA='
+              'Authorization': '***'
             }
           }
         )
