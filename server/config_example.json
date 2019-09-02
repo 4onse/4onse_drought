@@ -1,0 +1,7 @@
+{
+    "istsos_url": "https://istsos/demo",
+    "istsos_service": "sos",
+    "chirps_path": "/local/CHIRPS",
+    "istsos_pwd": "xxx",
+    "istsos_user": "xxx"
+}

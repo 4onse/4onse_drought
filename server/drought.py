@@ -30,7 +30,6 @@ from dateutil import parser
 from datetime import datetime, time, timedelta, timezone
 import pytz
 import logging
-from lib import compute
 from pyproj import Proj, transform
 import netCDF4
 import numpy as np
@@ -49,7 +48,8 @@ class IstsosDrought:
     def __init__(
         self, base_url, service, chirps_path,
         pwd=None, user=None, out_proj='epsg:4326',
-        spi_prefix='SPI_', base_path=None
+        spi_prefix='SPI_', base_path=None,
+        logger=None
     ):
         self.base_url = base_url.strip('/')
         self.service = service
@@ -69,45 +69,49 @@ class IstsosDrought:
         else:
             self.base_path = os.path.dirname(os.path.abspath(__file__))
 
-        ##################
-        # SETTING LOGGER #
-        ##################
+        if logger is None:
 
-        LOG_INFO = os.path.join(
-            self.base_path,
-            'log.txt'
-        )
+            ##################
+            # SETTING LOGGER #
+            ##################
 
-        LOG_ERROR = '{}/error.txt'.format(
-            self.base_path,
-            'error.txt'
-        )
+            LOG_INFO = os.path.join(
+                self.base_path,
+                'log.txt'
+            )
 
-        for handler in logging.root.handlers[:]:
-            logging.root.removeHandler(handler)
+            LOG_ERROR = '{}/error.txt'.format(
+                self.base_path,
+                'error.txt'
+            )
 
-        LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            for handler in logging.root.handlers[:]:
+                logging.root.removeHandler(handler)
 
-        self.logger = logging.getLogger(__name__)
-        log_formatter = logging.Formatter(LOG_FORMAT)
+            LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
-        # comment this to suppress console output
-        stream_handler = logging.StreamHandler()
-        stream_handler.setFormatter(log_formatter)
-        stream_handler.setLevel(logging.INFO)
-        self.logger.addHandler(stream_handler)
+            self.logger = logging.getLogger(__name__)
+            log_formatter = logging.Formatter(LOG_FORMAT)
 
-        file_handler_info = logging.FileHandler(LOG_INFO, mode='a')
-        file_handler_info.setFormatter(log_formatter)
-        file_handler_info.setLevel(logging.INFO)
-        self.logger.addHandler(file_handler_info)
+            # comment this to suppress console output
+            stream_handler = logging.StreamHandler()
+            stream_handler.setFormatter(log_formatter)
+            stream_handler.setLevel(logging.INFO)
+            self.logger.addHandler(stream_handler)
 
-        file_handler_error = logging.FileHandler(LOG_ERROR, mode='a')
-        file_handler_error.setFormatter(log_formatter)
-        file_handler_error.setLevel(logging.ERROR)
-        self.logger.addHandler(file_handler_error)
+            file_handler_info = logging.FileHandler(LOG_INFO, mode='a')
+            file_handler_info.setFormatter(log_formatter)
+            file_handler_info.setLevel(logging.INFO)
+            self.logger.addHandler(file_handler_info)
 
-        self.logger.setLevel(logging.INFO)
+            file_handler_error = logging.FileHandler(LOG_ERROR, mode='a')
+            file_handler_error.setFormatter(log_formatter)
+            file_handler_error.setLevel(logging.ERROR)
+            self.logger.addHandler(file_handler_error)
+
+            self.logger.setLevel(logging.INFO)
+        else:
+            self.logger = logger
 
     def get_stations(self):
         ##################
@@ -191,7 +195,7 @@ class IstsosDrought:
                         auth=(station['istsos_user'], station['istsos_pwd'])
                     )
                     if 'html' in r.text or 'Exception' in r.text:
-                        logger.error(
+                        self.logger.error(
                             "{}: {}".format(
                                 station['name'],
                                 r.text
@@ -322,10 +326,17 @@ class IstsosDrought:
                                 'data',
                                 '{}.txt'.format(station['name'][4:])),
                                 "a") as f:
+                            idx_r = 0
                             for row in update_rows:
-                                f.write(
-                                    '\n' + ','.join(row)
-                                )
+                                if idx_r == 0:
+                                    f.write(
+                                        ','.join(row)
+                                    )
+                                else:
+                                    f.write(
+                                        '\n' + ','.join(row)
+                                    )
+                                idx_r += 1
             else:
                 self.logger.info(
                     "GET DATA FROM {}".format(
@@ -435,11 +446,22 @@ class IstsosDrought:
                     self.logger.info(
                         "{} DATA LOADED".format(station['name'])
                     )
-                    with open('data/{}.txt'.format(
-                            station['name'][4:]), "w") as f:
+                    with open(
+                        os.path.join(
+                            self.base_path,
+                            'data',
+                            '{}.txt'.format(
+                                station['name'][4:]
+                            )), "w") as f:
                         f.write(station['data_txt'])
                         f.close()
-                    with open('data/{}.txt'.format(station['name'][4:])) as f:
+                    with open(
+                        os.path.join(
+                            self.base_path,
+                            'data',
+                            '{}.txt'.format(
+                                station['name'][4:]
+                            ))) as f:
                         station['ts'] = pd.read_csv(
                             header=0,
                             skiprows=None,
