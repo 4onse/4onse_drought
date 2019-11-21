@@ -6,7 +6,7 @@ class ChartComponent extends Component{
         var {
             data, title,
             pieces, markLine,
-            stations
+            stations, plot
         } = this.props
             
         let xLen = 0
@@ -72,10 +72,11 @@ class ChartComponent extends Component{
                 (item, index) =>(
                     {
                         name: item.name,
-                        type: 'line',
+                        type: plot,
                         data: data[index].map(function (item2) {
                             return item2
                         }),
+                        showSymbol: false,
                         markLine: {
                             silent: true,
                             data: markLine

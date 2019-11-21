@@ -25,7 +25,7 @@ function getPieces(i) {
           color: '#D50000',
           label: "Extreme danger",
       }]
-    } else {
+    } else if (i<=2) {
       pieces = [{
           lte: -2,
           color: '#794a2c',
@@ -60,6 +60,37 @@ function getPieces(i) {
         color: '#702aa9',
         label: "Extreme wet",
       }]
+    } else {
+        pieces = [{
+            gte: 120,
+            color: '#833494ff',
+            label: "Very heavy event",
+        }, {
+            gte: 60,
+            lt: 120,
+            color: '#070a79ff',
+            label: "Heavy rain event",
+        }, {
+            gte: 35,
+            lt: 60,
+            color: '#4d6bffff',
+            label: "Rather heavy rain event",
+        }, {
+            gte: 10,
+            lt: 35,
+            color: '#8a9df9',
+            label: "Moderate rain event",
+        }, {
+            gte: 1,
+            lt: 10,
+            color: '#cbfafbff',
+            label: "Light rain event",
+        }, {
+            gte: 0,
+            lt: 1,
+            color: '#fff',
+            label: "No rain",
+        }]
     }
     return pieces
   }

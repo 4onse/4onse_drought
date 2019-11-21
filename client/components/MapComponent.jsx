@@ -1,3 +1,4 @@
+// import {L} from 'leaflet'
 import React, { Component } from 'react'
 import { Button, Header, Icon, Image, Modal, Table } from 'semantic-ui-react'
 import ChartComponent from './ChartComponent'
@@ -8,7 +9,7 @@ var mymap = null;
 
 class MapComponent extends Component {
     state = {
-      classes: ['hi', 'spi30', 'spi60'],
+      classes: ['hi', 'spi30', 'spi60', 'rain'],
       basemap: null,
       modalOpen: false,
       station: null
@@ -61,13 +62,25 @@ class MapComponent extends Component {
             } else {
               return 'marker-purple.png'
             }
+          case 'rain':
+            if (v < 1) {
+              return 'marker-blue4-r.png'
+            } else if (v < 10) {
+              return 'marker-blue3-r.png'
+            } else if (v < 35) {
+              return 'marker-blue2-r.png'
+            } else if (v < 60) {
+              return 'marker-blue-r.png'
+            } else {
+              return 'marker-purple.png'
+            }
         default:
           break;
       }
 
     }
 
-    onMarkerClick(item) {      
+    onMarkerClick(item) {        
       this.setState({
         modalOpen: true,
         station: item
@@ -77,11 +90,15 @@ class MapComponent extends Component {
     handleClose = () => this.setState({modalOpen: false})
 
     getValue(dataArray) {
+      let arr_len = dataArray.values.length
+      
       let { selectedIndex } = this.props
-      if (selectedIndex>1) {
-        return dataArray.values[2][1]
+      if (selectedIndex<=1 || selectedIndex==3) {
+        // console.log(dataArray.values[arr_len-1]);
+        
+        return dataArray.values[arr_len-1][1]
       } else {
-        return dataArray.values[0][1]
+        return dataArray.values[arr_len-1][3]
       }
     }
     // componentDidUpdate(){
@@ -103,7 +120,6 @@ class MapComponent extends Component {
           }
         }); 
       }
-      
 
       let markers = this.props.data.map(
         (item) => {
@@ -180,9 +196,10 @@ class MapComponent extends Component {
       mymap = L.map(
         'mapid',
         {
-          zoomControl: false
+          zoomControl: false,
+          minZoom: 7
         }
-      ).setView([7.7, 80.5], 7);
+      ).setView([8.8, 80.5], 7);
       // map.zoomControl.setPosition('topright');
       L.control.zoom({
         position: 'topright'
@@ -193,6 +210,12 @@ class MapComponent extends Component {
       })
       mymap.doubleClickZoom.disable(); 
       basemap.addTo(mymap)
+      mymap.setMaxBounds(
+        [
+          [6.8,75],
+          [10.8,85]
+        ]
+      );
 
       this.createMarkers()
       this.setState({
@@ -200,20 +223,27 @@ class MapComponent extends Component {
       })
     }
     render () {
-      const { height, indexes, selectedIndex } = this.props
+      const { height, indexes, selectedIndex, plot } = this.props
       const { station } = this.state
       var statValues;
       var stationData;
       if (station != null) {
         statValues = []
+        
         stationData = station.data.result.DataArray.values.map(
           item => {
-            statValues.push(parseFloat(item[1]))
-            return [item[0], parseFloat(item[1]).toFixed(2)]
+            if (selectedIndex<=1 || selectedIndex==3) {
+              statValues.push(parseFloat(item[1]))
+              return [item[0], parseFloat(item[1]).toFixed(2)] 
+            } else {
+              statValues.push(parseFloat(item[3]))
+              return [item[0], parseFloat(item[3]).toFixed(2)] 
+            }
 
           }
         )
       }
+      
       return(
         <div>
           {
@@ -252,6 +282,7 @@ class MapComponent extends Component {
                     title={indexes[selectedIndex]}
                     pieces={getPieces(selectedIndex)}
                     id='chart-1'
+                    plot={plot}
                   />
                 </Modal.Description>
               </Modal.Content>
