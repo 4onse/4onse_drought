@@ -50,7 +50,7 @@ app.prepare().then(() => {
       pathRewrite: {
         '^/api': '' // remove base path
       },
-      target: 'https://geoservice.ist.supsi.ch/4onse',
+      target: 'http://192.168.0.138/istsos',
       changeOrigin: true 
     })
   );

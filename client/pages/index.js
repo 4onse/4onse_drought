@@ -45,7 +45,7 @@ Index.getInitialProps = async ({ req }) => {
   var d = new Date();
   var n = d.getMilliseconds();
   const res = await fetch(
-    'http://localhost:3000/api/wa/istsos/services/lkaqc/procedures/operations/geojson?epsg=4326',
+    'http://192.168.0.138/istsos/wa/istsos/services/lkaqc/procedures/operations/geojson?epsg=4326',
     {
       method: 'GET',
       headers: {
@@ -66,15 +66,15 @@ Index.getInitialProps = async ({ req }) => {
       let url;
       if (item.properties.name.includes('SPI_') || item.properties.name.includes('HI_')) {
 
-        url  = `http://localhost:3000/api/lkaqc?service=SOS&version=1.0.0&request=GetObservation&offering=temporary&procedure=${item.properties.name}&eventTime=${begin_time.toISOString()}/${event_time}&observedProperty=:&responseFormat=application/json&qualityIndex=true`
+        url  = `http://192.168.0.138/istsos/lkaqc?service=SOS&version=1.0.0&request=GetObservation&offering=temporary&procedure=${item.properties.name}&eventTime=${begin_time.toISOString()}/${event_time}&observedProperty=:&responseFormat=application/json&qualityIndex=true`
         
       } else {
         begin_time.setDate(end.getDate() - 6);
-        url  = `http://localhost:3000/api/lkaqc?service=SOS&version=1.0.0&request=GetObservation&offering=temporary&procedure=${item.properties.name}&eventTime=${begin_time.toISOString()}/${event_time}&observedProperty=rain&aggregateInterval=PT24H&aggregateFunction=SUM&responseFormat=application/json&qualityIndex=true`
+        url  = `http://192.168.0.138/istsos/api/lkaqc?service=SOS&version=1.0.0&request=GetObservation&offering=temporary&procedure=${item.properties.name}&eventTime=${begin_time.toISOString()}/${event_time}&observedProperty=rain&aggregateInterval=PT24H&aggregateFunction=SUM&responseFormat=application/json&qualityIndex=true`
       }
       return getData(url, 'GET', {
         'Content-Type': 'application/json',
-        'Authorization': 'Basic YWRtaW46QlYzWGp2clA='
+        'Authorization': 'Basic c3JpOnNyaQ=='
       })
     })
 
@@ -100,7 +100,7 @@ Index.getInitialProps = async ({ req }) => {
             data: station_data,
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'Basic YWRtaW46QlYzWGp2clA='
+              'Authorization': 'Basic c3JpOnNyaQ=='
             }
           }
         }

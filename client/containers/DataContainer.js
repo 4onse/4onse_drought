@@ -109,7 +109,7 @@ class DataContainer extends Component {
                 return data
             }
             var event_time = begin.toISOString() + '/' + end.toISOString()
-            let url  = `/api/wa/istsos/services/lkaqc/operations/getobservation/offerings/temporary/procedures/${item.properties.name}/observedproperties/:/eventtime/${event_time}`
+            let url  = `api/wa/istsos/services/lkaqc/operations/getobservation/offerings/temporary/procedures/${item.properties.name}/observedproperties/:/eventtime/${event_time}`
             return this.getData(url, 'GET', item.headers)
         })
         Promise.all(promises).then((res)=>{
