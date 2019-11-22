@@ -7,3 +7,4 @@
 config.json
 server/data/*
 *.log
+client/build

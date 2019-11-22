@@ -130,7 +130,7 @@ class MapComponent extends Component {
               let v = this.getValue(item.data.result.DataArray)
               let iconFileName = this.getColor(v)
               let MarkerIcon = L.icon({
-                iconUrl: '/static/leaflet/images/' + iconFileName,
+                iconUrl: '/drought/static/leaflet/images/' + iconFileName,
                 iconSize:     [15, 15], // size of the icon
                 iconAnchor:   [-7.5, -7.5], // point of the icon which will correspond to marker's location
                 popupAnchor:  [15, 15] // point from which the popup should open relative to the iconAnchor
@@ -153,7 +153,7 @@ class MapComponent extends Component {
               )   
             } else {
               let MarkerIcon = L.icon({
-                iconUrl: '/static/leaflet/images/marker-no-data.png',
+                iconUrl: '/drought/static/leaflet/images/marker-no-data.png',
                 iconSize:     [15, 15], // size of the icon
                 iconAnchor:   [-7.5, -7.5], // point of the icon which will correspond to marker's location
                 popupAnchor:  [15, 15] // point from which the popup should open relative to the iconAnchor
@@ -169,7 +169,7 @@ class MapComponent extends Component {
             
           } else {
             let MarkerIcon = L.icon({
-              iconUrl: '/static/leaflet/images/marker-no-data.png',
+              iconUrl: '/drought/static/leaflet/images/marker-no-data.png',
               iconSize:     [15, 15], // size of the icon
               iconAnchor:   [-7.5, -7.5], // point of the icon which will correspond to marker's location
               popupAnchor:  [15, 15] // point from which the popup should open relative to the iconAnchor

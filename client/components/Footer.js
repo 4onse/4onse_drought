@@ -12,7 +12,7 @@ const Footer = (props) => (
       <Container textAlign='center' style={props.footerStyle}>
         <List horizontal inverted divided link >
           <List.Item>
-            <Link href="/">
+            <Link href="/drought">
               <a>Home</a>
             </Link>
           </List.Item>
@@ -20,7 +20,7 @@ const Footer = (props) => (
             Contact Us
           </List.Item>
           <List.Item>
-            <Link href="/about" >
+            <Link href="/drought/about" >
               <a>Terms and Conditions</a>
             </Link>
           </List.Item>
